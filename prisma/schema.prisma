@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+    provider             = "mysql"
+    url                  = env("DATABASE_URL")
+    shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+    referentialIntegrity = "prisma"
+}
+
+model Dealership {
+    id             String   @id @default(cuid())
+    name           String   @unique
+    message        String?  @db.VarChar(1000)
+    phone          String?
+    streetAddress  String
+    city           String
+    state          String
+    zip            String
+    url            String   @unique
+    email          String?
+    socialAccounts Social[]
+    reviews        Review[]
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+}
+
+model Social {
+    id           String     @id @default(cuid())
+    name         String
+    url          String
+    icon         String     @default("faStar")
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+    dealership   Dealership @relation(fields: [dealershipId], references: [id])
+    dealershipId String
+}
+
+model Review {
+    id           String     @id @default(cuid())
+    subject      String
+    name         String
+    message      String     @db.VarChar(1000)
+    rating       Int        @default(0)
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+    dealership   Dealership @relation(fields: [dealershipId], references: [id])
+    dealershipId String
+}
