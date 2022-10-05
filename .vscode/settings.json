@@ -1,7 +1,7 @@
 {
     "[prisma]": {
         "editor.defaultFormatter": "Prisma.prisma",
-        "editor.formatOnSave": true
+        "editor.formatOnSave": false
     },
     "WillLuke.nextjs.addTypesOnSave": true,
     "WillLuke.nextjs.hasPrompted": true
