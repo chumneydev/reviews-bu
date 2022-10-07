@@ -2,14 +2,11 @@ import { NextPageWithLayout } from "../_app"
 import { useForm, SubmitHandler, useFieldArray, useWatch, FormProvider } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { classNames } from 'lib/helpers';
 
 import AdminLayout from "@/layouts/Admin"
 
 import Header from "@/layouts/Header";
 import Footer from "@/layouts/Footer";
-import Input from "@/components/Store/Input";
-import Form from "@/components/Store/Form";
 
 // Types
 type Inputs = {
@@ -98,38 +95,107 @@ const AdminCreateDealer: NextPageWithLayout = () => {
 
     const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
+     function handleTitleChange(e: any) {
+            setValue('url', e.target.value.replace(/\s+/g, '-').toLowerCase());
+        }
+
+
     return (
         <>
             <section>
-                <div className="border-2 border-burnt-500 mx-auto px-4 py-4">
+                <div className=" mx-auto px-4 py-4">
 
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit(onSubmit)} className="bg-slate-900 p-8">
                             
-                        <section className="grid grid-cols-2 gap-8 mb-8">
-                            <div className="flex flex-col">
-                                <input
-                                    type={'text'}
-                                    placeholder={'Name'}
-                                    {...register('name')} 
-                                    className={errors.name ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
-                                />
-                                {errors.name && <span>{errors.name?.message}</span>}
+                        <section>
+                            
+                            <div className="grid grid-cols-2 gap-8 mb-8">
+                                <div className="flex flex-col">
+                                    <input
+                                        type={'text'}
+                                        placeholder={'Name'}
+                                        {...register('name')} 
+                                        onChange={handleTitleChange}
+                                        className={errors.name ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                    />
+                                    {errors.name && <span>{errors.name?.message}</span>}
+                                </div>
+                                <div className="flex flex-col">
+                                    <input
+                                        type={'text'}
+                                        placeholder={'dealership-url'}
+                                        {...register('url')}
+                                        disabled
+                                        className={errors.url ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                    />
+                                    {errors.url && <span>{errors.url?.message}</span>}
+                                </div>
                             </div>
-                            <div className="flex flex-col">
-                                <input
-                                    type={'text'}
-                                    placeholder={'Name'}
-                                    {...register('url')}
-                                    className={errors.name ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
-                                />
-                                {errors.url && <span>{errors.url?.message}</span>}
+
+                            <div className="grid grid-cols-2 gap-8 mb-8">
+                                <div className="flex flex-col">
+                                    <input
+                                        type={'text'}
+                                        placeholder={'Phone'}
+                                        {...register('phone')} 
+                                        onChange={handleTitleChange}
+                                        className={errors.phone ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                    />
+                                    {errors.phone && <span>{errors.phone?.message}</span>}
+                                </div>
+                                <div className="flex flex-col">
+                                    <input
+                                        type={'text'}
+                                        placeholder={'Street Address'}
+                                        {...register('streetAddress')}
+                                        className={errors.streetAddress ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                    />
+                                    {errors.streetAddress && <span>{errors.streetAddress?.message}</span>}
+                                </div>
                             </div>
+
+                            <div className="grid grid-cols-2 gap-8 mb-8">
+                                <div className="flex flex-col">
+                                    <input
+                                        type={'text'}
+                                        placeholder={'City'}
+                                        {...register('city')} 
+                                        onChange={handleTitleChange}
+                                        className={errors.city ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                    />
+                                    {errors.city && <span>{errors.city?.message}</span>}
+                                </div>
+                                <div className="flex flex-col">
+                                    <input
+                                        type={'text'}
+                                        placeholder={'State'}
+                                        {...register('state')}
+                                        className={errors.state ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                    />
+                                    {errors.state && <span>{errors.state?.message}</span>}
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 gap-8 mb-8">
+                                <div className="flex flex-col">
+                                    <input
+                                        type={'text'}
+                                        placeholder={'Zip'}
+                                        {...register('zip')} 
+                                        onChange={handleTitleChange}
+                                        className={errors.zip ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                    />
+                                    {errors.zip && <span>{errors.zip?.message}</span>}
+                                </div>
+                            </div>
+
+
                         </section>
 
                         {fields.map((item, index) => {
                         
                         return (
-                            <div key={item.id} className="flex flex-col bg-rust border-2 border-blue-300 p-4 mb-8">
+                            <div key={item.id} className="flex flex-col bg-sky-500 bg-opacity-10 border-2 border-white p-4 mb-8">
                                 <div className="grid grid-cols-1 pb-8">
                                     <input type={'text'} placeholder={'Name'} {...register(`socialAccounts.${index}.name` as const, { required: true })} />
                                     {errors.socialAccounts && <div>This field is required</div>}
@@ -144,7 +210,7 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                                     {errors.socialAccounts && <div>This field is required</div>}
                                 </div>                            
 
-                                <div className="grid grid-cols-1 pb-8">
+                                <div className="grid grid-cols-1">
                                     <button type="button" className="bg-red-400 py-4 font-bold text-white tracking-wider" onClick={() => remove(index)}>Delete</button>
                                 </div>                            
                             </div>
@@ -154,14 +220,6 @@ const AdminCreateDealer: NextPageWithLayout = () => {
 
 
 
-
-                        <section className="grid grid-cols-1 gap-8 mb-8">
-
-                            <div className="px-4 py-2 border-2 border-grey rounded relative">
-                                <label className="absolute -my-4 -mx-2 bg-white px-2 text-grey-darker">Name</label>
-                                <input type={"text"} className="appearance-none border-2 border-white rounded w-full py-2 text-grey-darker leading-tight focus:outline-none focus:bg-white focus:border-white" placeholder={"Max Mustermann"} />
-                            </div>
-                        </section>
                         
 
                         <section className="grid grid-cols-1">
