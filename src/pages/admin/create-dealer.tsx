@@ -105,11 +105,11 @@ const AdminCreateDealer: NextPageWithLayout = () => {
             <section>
                 <div className=" mx-auto px-4 py-4">
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="bg-slate-900 p-8">
+                    <form onSubmit={handleSubmit(onSubmit)} className="bg-slate-700/50 p-8 border-t-4 border-b-4 border-slate-500">
                             
                         <section>
                             
-                            <div className="grid grid-cols-2 gap-8 mb-8">
+                            <div className="grid grid-cols-2 gap-12 mb-12">
                                 <div className="flex flex-col">
                                     <input
                                         type={'text'}
@@ -132,7 +132,7 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-8 mb-8">
+                            <div className="grid grid-cols-2 gap-12 mb-12">
                                 <div className="flex flex-col">
                                     <input
                                         type={'text'}
@@ -154,7 +154,7 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-8 mb-8">
+                            <div className="grid grid-cols-2 gap-12 mb-12">
                                 <div className="flex flex-col">
                                     <input
                                         type={'text'}
@@ -176,7 +176,7 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 gap-8 mb-8">
+                            <div className="grid grid-cols-1  gap-12 mb-12">
                                 <div className="flex flex-col">
                                     <input
                                         type={'text'}
@@ -195,24 +195,26 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                         {fields.map((item, index) => {
                         
                         return (
-                            <div key={item.id} className="flex flex-col bg-sky-500 bg-opacity-10 border-2 border-white p-4 mb-8">
-                                <div className="grid grid-cols-1 pb-8">
-                                    <input type={'text'} placeholder={'Name'} {...register(`socialAccounts.${index}.name` as const, { required: true })} />
-                                    {errors.socialAccounts && <div>This field is required</div>}
-                                </div>                            
-                                <div className="grid grid-cols-1 pb-8">
-                                    <input type={'text'} placeholder={'Icon'} {...register(`socialAccounts.${index}.icon` as const, { required: true })} />
-                                    {errors.socialAccounts && <div>This field is required</div>}
-                                </div>                            
+                            <div key={item.id} className=" bg-sky-500 bg-opacity-10 border-2 border-white p-8 mb-8 relative">
 
-                                <div className="grid grid-cols-1 pb-8">
-                                    <input type={'text'} placeholder={'Url'} {...register(`socialAccounts.${index}.url` as const, { required: true })} />
-                                    {errors.socialAccounts && <div>This field is required</div>}
-                                </div>                            
+                                <div className="grid grid-cols-3 gap-12 pb-8">
+                                    <div className="flex flex-col">
+                                        <input type={'text'} placeholder={'Name'} {...register(`socialAccounts.${index}.name` as const, { required: true })} />
+                                        {errors.socialAccounts && <div>This field is required</div>}
+                                    </div>                            
+                                    <div className="flex flex-col">
+                                        <input type={'text'} placeholder={'Icon'} {...register(`socialAccounts.${index}.icon` as const, { required: true })} />
+                                        {errors.socialAccounts && <div>This field is required</div>}
+                                    </div>                            
 
-                                <div className="grid grid-cols-1">
-                                    <button type="button" className="bg-red-400 py-4 font-bold text-white tracking-wider" onClick={() => remove(index)}>Delete</button>
-                                </div>                            
+                                    <div className="flex flex-col">
+                                        <input type={'text'} placeholder={'Url'} {...register(`socialAccounts.${index}.url` as const, { required: true })} />
+                                        {errors.socialAccounts && <div>This field is required</div>}
+                                    </div>                            
+                                
+                                </div>
+
+                                    <button type="button" className="bg-red-400 w-4 h-4 absolute -top-3 -right-4 p-4 rounded-full text-white font-bold shadow-slate-900 shadow-md flex items-center justify-center transition-all duration-200 hover:shadow-none" onClick={() => remove(index)}>X</button>
                             </div>
                         )
                         })}
@@ -223,12 +225,12 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                         
 
                         <section className="grid grid-cols-1">
-                            <button type="button" className="bg-sky-500 hover:bg-sky-700 transition-color duration-300 tracking-wider font-bold py-4"  onClick={() => append({ id: fields.length.toString() , name: '', icon: '', url: '' })}>Add Social Account</button>
+                            <button type="button" className="bg-sky-500 hover:bg-sky-700 transition-color duration-300 tracking-wider  shadow-slate-900 shadow-md font-bold py-4"  onClick={() => append({ id: fields.length.toString() , name: '', icon: '', url: '' })}>Add Social Account</button>
                         </section>
 
                         <section className="grid md:grid-cols-2 gap-8 mt-8">
-                            <button className="bg-burnt-500 tracking-wider font-bold py-4">Clear</button>
-                            <button type="submit" className="bg-green-500 tracking-wider font-bold py-4">Create</button>
+                            <button className="bg-burnt-500 tracking-wider font-bold shadow-slate-900 shadow-md py-4 transition-all duration-200 hover:shadow-none">Clear</button>
+                            <button type="submit" className="bg-green-500 tracking-wider font-bold shadow-slate-900 shadow-md py-4 transition-all duration-200 hover:shadow-none">Create</button>
 
                         </section>
                     </form>
