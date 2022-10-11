@@ -45,7 +45,7 @@ model Review {
     id           String     @id @default(cuid())
     subject      String
     name         String
-    message      String     @db.VarChar(1000)
+    review      String     @db.VarChar(1000)
     rating       Int        @default(0)
     createdAt    DateTime   @default(now())
     updatedAt    DateTime   @updatedAt

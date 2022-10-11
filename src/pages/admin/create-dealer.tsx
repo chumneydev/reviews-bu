@@ -47,42 +47,42 @@ const AdminCreateDealer: NextPageWithLayout = () => {
         url: yup
             .string()
             .required('URL is required'),
-        // phone: yup
-        //     .string()
-        //     .required('Phone is required'),
-        // email: yup
-        //     .string()
-        //     .email('Email is invalid')
-        //     .required('Email is required'),
-        // city: yup
-        //     .string()
-        //     .required('City is required'),
-        // state: yup
-        // .string()
-        // .max(2, 'State must be 2 characters')
-        // .required('State is required'),
-        // zip: yup
-        //     .number()
-        //     .max(5, 'Zip must be 5 characters')
-        //     .required('Zip is required'),
-        // streetAddress: yup
-        //     .string()
-        //     .required('Street Address is required'),
-        // socialAccounts: yup
-        //     .array()
-        //     .of(
-        //         yup.object().shape({
-        //             name: yup
-        //                 .string()
-        //                 .required('Name is required'),
-        //             icon: yup
-        //                 .string()
-        //                 .required('Icon is required'),
-        //             url: yup
-        //                 .string()
-        //                 .required('URL is required'),
-        //         })
-        //     )
+        phone: yup
+            .string()
+            .required('Phone is required'),
+        email: yup
+            .string()
+            .email('Email is invalid')
+            .required('Email is required'),
+        city: yup
+            .string()
+            .required('City is required'),
+        state: yup
+        .string()
+        .max(2, 'State must be 2 characters')
+        .required('State is required'),
+        zip: yup
+            .number()
+            .max(5, 'Zip must be 5 characters')
+            .required('Zip is required'),
+        streetAddress: yup
+            .string()
+            .required('Street Address is required'),
+        socialAccounts: yup
+            .array()
+            .of(
+                yup.object().shape({
+                    name: yup
+                        .string()
+                        .required('Name is required'),
+                    icon: yup
+                        .string()
+                        .required('Icon is required'),
+                    url: yup
+                        .string()
+                        .required('URL is required'),
+                })
+            )
 
     });
 
@@ -116,9 +116,9 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                                         placeholder={'Name'}
                                         {...register('name')} 
                                         onChange={handleTitleChange}
-                                        className={errors.name ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                        className={errors.name ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : 'bg-slate-700/80 text-white'}
                                     />
-                                    {errors.name && <span>{errors.name?.message}</span>}
+                                    {errors.name && <span className="text-burnt-500 text-sm italic py-2">{errors.name?.message}</span>}
                                 </div>
                                 <div className="flex flex-col">
                                     <input
@@ -126,9 +126,9 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                                         placeholder={'dealership-url'}
                                         {...register('url')}
                                         disabled
-                                        className={errors.url ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                        className={errors.url ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : 'bg-slate-700/80 text-white'}
                                     />
-                                    {errors.url && <span>{errors.url?.message}</span>}
+                                    {errors.url && <span className="text-burnt-500 text-sm italic py-2">{errors.url?.message}</span>}
                                 </div>
                             </div>
 
@@ -139,7 +139,7 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                                         placeholder={'Phone'}
                                         {...register('phone')} 
                                         onChange={handleTitleChange}
-                                        className={errors.phone ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                        className={errors.phone ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : 'bg-slate-700/80 text-white'}
                                     />
                                     {errors.phone && <span>{errors.phone?.message}</span>}
                                 </div>
@@ -148,9 +148,9 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                                         type={'text'}
                                         placeholder={'Street Address'}
                                         {...register('streetAddress')}
-                                        className={errors.streetAddress ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                        className={errors.streetAddress ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : 'bg-slate-700/80 text-white'}
                                     />
-                                    {errors.streetAddress && <span>{errors.streetAddress?.message}</span>}
+                                    {errors.streetAddress && <span className="text-burnt-500 text-sm italic py-2">{errors.streetAddress?.message}</span>}
                                 </div>
                             </div>
 
@@ -161,18 +161,18 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                                         placeholder={'City'}
                                         {...register('city')} 
                                         onChange={handleTitleChange}
-                                        className={errors.city ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                        className={errors.city ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : 'bg-slate-700/80 text-white'}
                                     />
-                                    {errors.city && <span>{errors.city?.message}</span>}
+                                    {errors.city && <span className="text-burnt-500 text-sm italic py-2">{errors.city?.message}</span>}
                                 </div>
                                 <div className="flex flex-col">
                                     <input
                                         type={'text'}
                                         placeholder={'State'}
                                         {...register('state')}
-                                        className={errors.state ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                        className={errors.state ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : 'bg-slate-700/80 text-white'}
                                     />
-                                    {errors.state && <span>{errors.state?.message}</span>}
+                                    {errors.state && <span className="text-burnt-500 text-sm italic py-2">{errors.state?.message}</span>}
                                 </div>
                             </div>
 
@@ -183,9 +183,9 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                                         placeholder={'Zip'}
                                         {...register('zip')} 
                                         onChange={handleTitleChange}
-                                        className={errors.zip ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : ''}
+                                        className={errors.zip ? 'focus:ring-burnt-500 bg-burnt-300 border-burnt-500 focus:border-burnt-500' : 'bg-slate-700/80 text-white'}
                                     />
-                                    {errors.zip && <span>{errors.zip?.message}</span>}
+                                    {errors.zip && <span className="text-burnt-500 text-sm italic py-2">{errors.zip?.message}</span>}
                                 </div>
                             </div>
 
@@ -197,19 +197,32 @@ const AdminCreateDealer: NextPageWithLayout = () => {
                         return (
                             <div key={item.id} className=" bg-sky-500 bg-opacity-10 border-2 border-white p-8 mb-8 relative">
 
-                                <div className="grid grid-cols-3 gap-12 pb-8">
+                                <div className="grid grid-cols-3 gap-12">
                                     <div className="flex flex-col">
-                                        <input type={'text'} placeholder={'Name'} {...register(`socialAccounts.${index}.name` as const, { required: true })} />
-                                        {errors.socialAccounts && <div>This field is required</div>}
+                                        <input
+                                            type={'text'}
+                                            placeholder={'Name'}
+                                            {...register(`socialAccounts.${index}.name` as const)}
+                                        />
+                                        {errors.socialAccounts && <span>{errors.socialAccounts?.message}</span>}
+                                        {/* {errors.socialAccounts && <div>This field is required</div>} */}
                                     </div>                            
                                     <div className="flex flex-col">
-                                        <input type={'text'} placeholder={'Icon'} {...register(`socialAccounts.${index}.icon` as const, { required: true })} />
-                                        {errors.socialAccounts && <div>This field is required</div>}
+                                        <input
+                                            type={'text'}
+                                            placeholder={'Icon'}
+                                            {...register(`socialAccounts.${index}.icon` as const)}
+                                        />
+                                        {errors.socialAccounts && <span>{errors.socialAccounts?.message}</span>}
                                     </div>                            
 
                                     <div className="flex flex-col">
-                                        <input type={'text'} placeholder={'Url'} {...register(`socialAccounts.${index}.url` as const, { required: true })} />
-                                        {errors.socialAccounts && <div>This field is required</div>}
+                                        <input
+                                            type={'text'}
+                                            placeholder={'Url'}
+                                            {...register(`socialAccounts.${index}.url` as const)}
+                                        />
+                                        {errors.socialAccounts && <span>{errors.socialAccounts?.message}</span>}
                                     </div>                            
                                 
                                 </div>

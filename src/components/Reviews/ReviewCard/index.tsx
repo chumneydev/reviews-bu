@@ -1,3 +1,6 @@
+import { FaStar } from 'react-icons/fa';
+
+
 type ReviewCardProps = {
     stars: number;
     author: string;
@@ -15,7 +18,9 @@ const ReviewCard = ({ stars, author, review, date }: ReviewCardProps) => {
         
         const starArray = [];
         for (let i = 0; i < stars; i++) {
-            starArray.push(<div className="px-2" key={i}>⭐</div>);
+            starArray.push(<div className="px-2" key={i}>
+                <FaStar className="text-white" />
+            </div>);
         }
         return starArray;
     
@@ -26,7 +31,9 @@ const ReviewCard = ({ stars, author, review, date }: ReviewCardProps) => {
     // TODO: Add date to the review card
     const currentMYSQLDate = "2022-09-29T16:12:24.085Z";
     const currentDate = new Date(currentMYSQLDate);
-    console.log(currentDate);
+    
+    // ? Uncomment the following line to see the date in the console
+    // console.log(currentDate);
 
     const convertDate = ( date: string | undefined ) => {
         //@ts-ignore
