@@ -26,6 +26,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import Header from '@/layouts/Header'
 import ReviewCard from '@/components/Cards/ReviewCard'
 import prisma from 'lib/prisma'
+import SocialCard from '@/components/Cards/SocialCard'
 
 // Custom types
 type ReviewFormValues = {
@@ -130,7 +131,25 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
             .catch(err => console.log(err))
     }
 
-
+    // Social Card
+    const socialRender = () => {
+        if (dealership.socialAccounts.length == 0) {
+            return (
+                <div className="relative bg-green-300 flex flex-col flex-auto items-center p-8">
+                    <h1 className="text-2xl font-bold text-center text-gray-600">No social accounts!</h1>
+                </div>
+            )
+        } else {
+            return (
+                <>
+                    {dealership.socialAccounts.map((social: any) => (
+                        <SocialCard key={social.id} icon={social.name} name={social.name} url={social.url} />
+                    ))}
+                </> 
+            )
+        }
+    }
+                        
 
     // Reviews Render
     const reviewsRender = () => {
@@ -193,28 +212,7 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
 
                <section id="social">
                     <div className="flex flex-col md:flex-row gap-8 bg-slate-400 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-                        
-                        <div className="relative bg-green-300 flex flex-col flex-auto items-center p-8 ">
-                            <div className="text-8xl pb-4 text-center">
-                                <a href="#">
-                                    <span className="absolute inset-0"></span>
-                                    <FaFacebook />
-                                </a>
-                            </div>
-                            <div className="text-3xl tracking-wider text-center">Leave Us A Review</div>
-                        </div>
-                      
-                        <div className="relative bg-green-300 flex flex-col flex-auto items-center p-8">
-                            <div className="text-8xl pb-4 text-center">
-                                <a href="#">
-                                    <span className="absolute inset-0"></span>
-                                    <FaTwitter />
-                                </a>
-                            </div>
-                            <div className="text-3xl tracking-wider text-center">Leave Us A Review</div>
-                        </div>
-                      
-
+                        {socialRender()}
                     </div>
                 </section>
 
