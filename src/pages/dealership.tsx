@@ -3,7 +3,7 @@ import { NextPage } from "next"
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup"
 
-import { FaFacebook, FaTwitter } from 'react-icons/fa'
+import { FaFacebook, FaTwitter, FaMap, FaMapMarkerAlt } from 'react-icons/fa'
 
 import { Rating } from 'react-simple-star-rating'
 
@@ -27,7 +27,7 @@ type ReviewFormValues = {
 
 import { useForm } from "react-hook-form"
 
-import ReviewCard from "@/components/Reviews/ReviewCard"
+import ReviewCard from "@/components/Cards/ReviewCard"
 import { useState } from "react";
 
 
@@ -97,13 +97,13 @@ const Dealership = ( {  }: DealershipProps ) => {
         }
 
         // ! Uncomment this to send data to the server
-        fetch("/api/reviews/create", requestOption)
-        // fetch("/api/dummy", requestOption)
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .then(() => reset())
-            .then(() => successReviewMessage())
-            .catch(err => console.log(err))
+        // fetch("/api/reviews/create", requestOption)
+        // // fetch("/api/dummy", requestOption)
+        //     .then(res => res.json())
+        //     .then(data => console.log(data))
+        //     .then(() => reset())
+        //     .then(() => successReviewMessage())
+        //     .catch(err => console.log(err))
 
 
 
@@ -124,6 +124,18 @@ const Dealership = ( {  }: DealershipProps ) => {
             </header>
             
             
+            <section id="icon">
+                <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 bg-green-100">
+                    <div className="relative bg-teal-300 inline-block">
+                        <FaMapMarkerAlt className="text-8xl text-red-300 absolute z-10 left-7 bottom-20" />
+                        <FaMap className=" text-9xl text-green-700" />
+                    </div>
+                </div>
+            </section>
+
+
+
+
             <main className="">
 
 
