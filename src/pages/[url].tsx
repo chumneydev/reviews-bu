@@ -28,6 +28,7 @@ import Header from '@/layouts/Header'
 import ReviewCard from '@/components/Cards/ReviewCard'
 import SocialCard from '@/components/Cards/SocialCard'
 import ReviewGrid from '@/components/Grids/ReviewGrid'
+import SocialGrid from '@/components/Grids/SocialGrid'
 
 
 // Custom types
@@ -208,6 +209,11 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
     // const reviewsRight = reviews.slice(reviewColumnLeft, totalReviews)
 
 
+    // Assign social accounts to a variable
+    const socialAccounts = dealership.socialAccounts
+
+
+
     // Reviews Render
     const useReviews = (reviews: any) => {
         if (reviews.length == 0) {
@@ -335,9 +341,10 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
 
 
                <section id="social">
-                    <div className="flex flex-col md:flex-row gap-8 bg-teal-500 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-                        {socialRender()}
-                    </div>
+
+                    {/* @ts-ignore */}
+                    <SocialGrid data={socialAccounts} />
+
                 </section>
 
                  <section id="reviews" className="">
