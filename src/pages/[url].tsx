@@ -3,7 +3,7 @@ import { GetStaticProps, GetStaticPaths, InferGetServerSidePropsType, GetServerS
 import Head from 'next/head'
 
 // React dependencies
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // Yup dependencies
 import * as yup from 'yup'
@@ -16,17 +16,19 @@ import { useForm } from 'react-hook-form'
 import { Rating } from 'react-simple-star-rating'
 
 // React Icons dependencies
-// TODO: Add icons based on social account type
-import { FaStar, FaFacebook, FaTwitter } from 'react-icons/fa'
+// ? Are social icons needed to be imported in this view?
 
 // Toast dependencies
 import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css';
 
 // Components
+import prisma from 'lib/prisma'
 import Header from '@/layouts/Header'
 import ReviewCard from '@/components/Cards/ReviewCard'
-import prisma from 'lib/prisma'
 import SocialCard from '@/components/Cards/SocialCard'
+import ReviewGrid from '@/components/Grids/ReviewGrid'
+
 
 // Custom types
 type ReviewFormValues = {
@@ -35,6 +37,8 @@ type ReviewFormValues = {
     phone: string
     review: string
     rating: number
+    dealershipId: string
+    boter: boolean
 }
 
 // Server side props
@@ -81,6 +85,12 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
 
     // Star Rating
     const [rating, setRating] = useState(0);
+
+    // useEffect(() => {
+    //     console.log(rating)
+    // }, [rating])
+
+
     const handleRating = (rate: number) => {
         setRating(rate);
     }
@@ -108,28 +118,56 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
         resolver: yupResolver(schema)
     });
 
+
+
+
     // Submit review
     const onSubmit = (data: any) => {
         
-        // Add rating to data
-        const dataWithRating = {
+        // Add specific data to review
+        // dealershipId => dealership.id
+        // rating => rating
+        const reviewData = {
             ...data,
+            dealershipId: dealership.id,
             rating: rating
+
         }
 
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataWithRating)
+            body: JSON.stringify(reviewData)
         };
 
         fetch('/api/reviews/create', requestOptions)
-            .then(res => res.json())
-            // .then(data => console.log(data))
-            .then(() => reset())
-            .then(() => successReviewMessage())
-            .catch(err => console.log(err))
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    errorReviewMessage()
+                } else {
+                    successReviewMessage()
+                    reset()
+                }
+            }
+        );
+
+
     }
+
+
+    // Check if the form is being submitted by a bot
+    // Watch for changes in the boter field
+    // If the value is true, disable the submit button
+    let disableSubmit = false;
+    const botWatcher = watch('boter', false);
+    
+    if (botWatcher == true) {
+        disableSubmit = true
+    }
+
+
+
 
     // Social Card
     const socialRender = () => {
@@ -151,9 +189,28 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
     }
                         
 
+ 
+    // Assign reviews to a variable
+    // Tally up the total number of reviews
+    // Get average rating for current dealer
+    const reviews = dealership.reviews
+    const totalReviews = reviews.length
+    const totalStars = reviews.reduce((acc: any, review: any) => acc + review.rating, 0)
+
+    const averageRating = totalStars / totalReviews
+    // console.log(averageRating)
+
+
+    // const reviewColumnLeft = totalReviews % 2 == 0 ? totalReviews / 2 : (totalReviews + 1) / 2;
+    // const reviewColumnRight = totalReviews % 2 == 0 ? totalReviews / 2 : (totalReviews - 1) / 2;
+    
+    // const reviewsLeft = reviews.slice(0, reviewColumnLeft)
+    // const reviewsRight = reviews.slice(reviewColumnLeft, totalReviews)
+
+
     // Reviews Render
-    const reviewsRender = () => {
-        if (dealership.reviews.length == 0) {
+    const useReviews = (reviews: any) => {
+        if (reviews.length == 0) {
             return (
                 <div className="flex flex-col items-center justify-center w-full h-full">
                     <h1 className="text-2xl font-bold text-center text-gray-600">No reviews yet!</h1>
@@ -163,20 +220,13 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
         } else {
             return (
                 <>
-                {dealership.reviews.map((review: any) => (
+                {reviews.map((review: any) => (
                     <ReviewCard stars={review.rating} author={review.name} date={review.createdAt} review={review.review} key={review.id} />
                 ))}
-                </>                
+                </>
             )
         }
     }
-
-
-
-
-
-
-
 
     return (
         <div>
@@ -193,12 +243,12 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
 
                 <section id="welcome">
                     <div className="grid md:grid-cols-2 bg-slate-400 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 lg:py-24">
-                        <div className=" flex flex-col justify-center p-8">
+                        <div className=" flex flex-col justify-center p-8 bg-lime-400">
                             <h1 className="text-4xl font-bold pb-4">{dealership.name}</h1>
                             <p className="text-md">{dealership.message}</p>
                         </div>
 
-                        <div className="flex flex-col p-8 items-center">
+                        <div className="flex flex-col p-8 items-center bg-teal-400">
                             <div className="bg-slate-700 bg-opacity-70 p-6 rounded-3xl w-80 h-60 relative flex flex-col place-content-center place-items-center">
                                 <p className="text-6xl">Map</p>
                             </div>
@@ -207,30 +257,97 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
                     </div>
                 </section>
 
-                
+
+                <section id="comments">
+                    <div className=" bg-clay-500 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+
+                        <h2 className="text-4xl text-center font-bold pb-6 l">Would you mind sharing your expierience with us?</h2>
+
+
+                        <form onSubmit={handleSubmit(onSubmit)} className="">
+
+                            <div className="flex flex-col">
+
+                                <div className="w-full flex justify-center py-4">
+                                    <Rating
+                                        onClick={handleRating}
+                                        size={80}
+                                        transition
+                                        allowFraction={false}
+                                        className=""
+                                        // className="flex justify-between w-full bg-yellow-50"
+                                    />
+                                </div>
+
+                                <div className="flex flex-col w-full py-4">
+                                    <input
+                                        type="text"
+                                        placeholder="Subject"
+                                        {...register("subject")}
+                                    />
+                                    {errors.subject && <span className="text-burnt-500 text-sm italic py-2">{errors.subject?.message}</span>}
+                                </div>
+                                <div className="flex flex-col w-full py-4">
+                                    <input
+                                        type="text"
+                                        placeholder="Full Name"
+                                        {...register("name")}
+                                    />
+                                    {errors.name && <span className="text-burnt-500 text-sm italic py-2">{errors.name?.message}</span>}
+                                </div>
+                                <div className="flex flex-col w-full py-4">
+                                    <input
+                                        type="text"
+                                        placeholder="Phone Number"
+                                        {...register("phone")}
+                                    />
+                                    {errors.phone && <span className="text-burnt-500 text-sm italic py-2">{errors.phone?.message}</span>}
+                                </div>
+                                <div className="flex flex-col w-full py-4">
+                                    <textarea
+                                        placeholder="Review"
+                                        rows={10}
+                                        {...register("review")}
+                                    ></textarea>
+                                    {errors.review && <span className="text-burnt-500 text-sm italic py-2">{errors.review?.message}</span>}
+                                </div>
+                            </div>
+
+                            <div className="">
+                                    <input type="checkbox" {...register("boter")} />
+                            </div>
+
+                            <div className="flex flex-col w-full py-4">
+                                <button
+                                    type="submit"
+                                    className={
+                                        disableSubmit
+                                        ? "p-4 bg-red-700 text-white"
+                                        : "p-4 bg-slate-700 text-white transition-all duration-200 hover:bg-slate-900 pointer"
+                                    }
+                                    disabled={disableSubmit}>Submit</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </section>
+
 
 
                <section id="social">
-                    <div className="flex flex-col md:flex-row gap-8 bg-slate-400 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-col md:flex-row gap-8 bg-teal-500 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
                         {socialRender()}
                     </div>
                 </section>
 
-                 <section id="reviews" className="md:py-20">
-                    <div className="bg-slate-400 max-w-7xl mx-auto flex flex-col py-4 px-4 sm:px-6 lg:px-8">
+                 <section id="reviews" className="">
+                    <div className=" bg-violet-500 max-w-7xl mx-auto flex flex-col py-4 px-4 sm:px-6 lg:px-8">
 
                         <h2 className="text-center font-bold text-5xl tracking-wide md:py-10">Here are what others are saying</h2>
-
-                        <div id="review__body" className="grid md:grid-cols-2 gap-16 mt-8  md:pb-20">
-
-                            {/* Reviews */}
-                            {reviewsRender()}
-
-                            {/* {dealership.reviews.map((review: any) => (
-                                <ReviewCard stars={review.rating} author={review.name} date={review.createdAt} review={review.review} />
-                            ))} */}
                             
-                        </div>
+                            {/* ! Remove following for production */}
+                            {/* @ts-ignore */}
+                            <ReviewGrid data={reviews} />
 
                     </div>
                 </section>

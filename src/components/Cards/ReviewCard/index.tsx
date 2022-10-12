@@ -41,11 +41,6 @@ const ReviewCard = ({ stars, author, review, date }: ReviewCardProps) => {
         return newDate.toLocaleDateString();
     }
 
-    // const currentMYSQLDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    // const currentDate = new Date(currentMYSQLDate).toDateString();
-
-
-
 
 
 
@@ -64,18 +59,37 @@ const ReviewCard = ({ stars, author, review, date }: ReviewCardProps) => {
         //     </div>
         // </div>
 
-        <div className="bg-white rounded-md p-4 hover:shadow-md transition-shadow duration-300 ease-in-out">
-            <div className="flex flex-row justify-between items-center pb-4">
-                <div className="flex flex-col tracking-wide">
+        <figure className="relative flex flex-col-reverse bg-white rounded-lg p-6">
+            <blockquote className="mt-6">
+                {review}
+            </blockquote>
+            <figcaption className="flex items-center space-x-4">
+                <div className="flex-auto">
                     <p className="font-bold">{author}</p>
-                    <p className="text-xs italic pt-2">{convertDate(date)}</p>
-                
-                    <span className="text-3"></span>
                 </div>
-                <div className="bg-slate-300 p-2 rounded-md flex justify-between">{starRating({stars})}</div>
-            </div>
-            <div className="flex flex-col tracking-wide pt-4">{review}</div>
-        </div>
+                <div className="flex justify-between bg-yellow-500 rounded-md p-2">
+                    {starRating({stars})}
+                </div>
+            </figcaption>
+
+        </figure>
+
+
+
+
+
+    // <div className="bg-white rounded-md p-4 hover:shadow-md transition-shadow duration-300 ease-in-out">
+    //         <div className="flex flex-row justify-between items-center pb-4">
+    //             <div className="flex flex-col tracking-wide">
+    //                 <p className="font-bold">{author}</p>
+    //                 <p className="text-xs italic pt-2">{convertDate(date)}</p>
+                
+    //                 <span className="text-3"></span>
+    //             </div>
+    //             <div className="bg-slate-300 p-2 rounded-md flex justify-between">{starRating({stars})}</div>
+    //         </div>
+    //         <div className="flex flex-col tracking-wide pt-4">{review}</div>
+    //     </div>
 
 
 

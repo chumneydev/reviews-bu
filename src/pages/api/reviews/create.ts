@@ -22,7 +22,7 @@ const createReview: NextApiHandler = async (req, res) => {
                 name,
                 review,
                 rating,
-                dealershipId: 'cl949zf1p0000aspzz4r2ln6p'
+                dealershipId
             }
         })
 
