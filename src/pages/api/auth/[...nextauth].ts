@@ -1,4 +1,5 @@
-import NextAuth, { NextAuthOptions } from "next-auth"
+
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import Auth0Provider from "next-auth/providers/auth0"
 
 export const authOptions: NextAuthOptions = {
@@ -13,13 +14,12 @@ export const authOptions: NextAuthOptions = {
         colorScheme: "dark",
     },
     callbacks: {
-        async jwt({ token }) {
+        async jwt({ token }: any) {
             token.userRole = "admin"
             return token
         }
     },
-
-}
+};
 
 
 export default NextAuth(authOptions)
