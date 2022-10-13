@@ -29,8 +29,6 @@ const ReviewCard = ({ stars, author, review, date }: ReviewCardProps) => {
 
 
     // TODO: Add date to the review card
-    const currentMYSQLDate = "2022-09-29T16:12:24.085Z";
-    const currentDate = new Date(currentMYSQLDate);
     
     // ? Uncomment the following line to see the date in the console
     // console.log(currentDate);
@@ -66,6 +64,7 @@ const ReviewCard = ({ stars, author, review, date }: ReviewCardProps) => {
             <figcaption className="flex items-center space-x-4">
                 <div className="flex-auto">
                     <p className="font-bold">{author}</p>
+                    <p className="text-xs italic pt-1">{convertDate(date)}</p>
                 </div>
                 <div className="flex justify-between bg-yellow-500 rounded-md p-2">
                     {starRating({stars})}

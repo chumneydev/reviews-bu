@@ -19,7 +19,7 @@ const SocialGrid = ({ data }: SocialGridTypes) => {
     }
 
     return (
-        <div className="flex flex-col md:flex-row gap-8 bg-teal-500 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row gap-8 bg-yellow-500 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
             {accounts.map((account: any) => (
                 <SocialCard
                     key={account.id}

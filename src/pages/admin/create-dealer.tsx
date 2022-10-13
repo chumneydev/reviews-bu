@@ -1,4 +1,6 @@
-import { NextPageWithLayout } from "../_app"
+import { signIn, signOut, useSession } from "next-auth/react"
+
+
 import { useForm, SubmitHandler, useFieldArray, useWatch, FormProvider } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -29,7 +31,7 @@ type Inputs = {
     } [],
 }
 
-const AdminCreateDealer: NextPageWithLayout = () => {
+const AdminCreateDealer = () => {
 
 
     // TODO Form Validation
@@ -98,6 +100,29 @@ const AdminCreateDealer: NextPageWithLayout = () => {
      function handleTitleChange(e: any) {
             setValue('url', e.target.value.replace(/\s+/g, '-').toLowerCase());
         }
+
+
+const { data: session } = useSession()
+
+    if(!session) {
+        return (
+            <div className="bg-red-400 flex flex-col">
+                <h1>Admin</h1>
+                <p>You need to be signed in to view this page.</p>
+                <a
+                    href="/api/auth/signin"
+                    onClick={(e) => {
+                        e.preventDefault()
+                        signIn()
+                    }}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    You must be signed in to view this page
+                </a>
+            </div>
+        )
+    }
+
 
 
     return (
@@ -256,12 +281,5 @@ const AdminCreateDealer: NextPageWithLayout = () => {
 
     )
 }
-
-AdminCreateDealer.getLayout = (page) => (
-    <AdminLayout>
-        {page}
-    </AdminLayout>
-)
-
 
 export default AdminCreateDealer

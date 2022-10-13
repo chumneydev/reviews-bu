@@ -28,6 +28,7 @@ import Header from '@/layouts/Header'
 import ReviewCard from '@/components/Cards/ReviewCard'
 import SocialCard from '@/components/Cards/SocialCard'
 import ReviewGrid from '@/components/Grids/ReviewGrid'
+import ReviewStats from '@/components/Reviews/ReviewStats'
 import SocialGrid from '@/components/Grids/SocialGrid'
 
 
@@ -195,11 +196,6 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
     // Tally up the total number of reviews
     // Get average rating for current dealer
     const reviews = dealership.reviews
-    const totalReviews = reviews.length
-    const totalStars = reviews.reduce((acc: any, review: any) => acc + review.rating, 0)
-
-    const averageRating = totalStars / totalReviews
-    // console.log(averageRating)
 
 
     // const reviewColumnLeft = totalReviews % 2 == 0 ? totalReviews / 2 : (totalReviews + 1) / 2;
@@ -248,7 +244,7 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
             <main>
 
                 <section id="welcome">
-                    <div className="grid md:grid-cols-2 bg-slate-400 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 lg:py-24">
+                    <div className="grid md:grid-cols-2 bg-lime-400 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 lg:py-24">
                         <div className=" flex flex-col justify-center p-8 bg-lime-400">
                             <h1 className="text-4xl font-bold pb-4">{dealership.name}</h1>
                             <p className="text-md">{dealership.message}</p>
@@ -348,13 +344,14 @@ const Dealer = ({ dealership }: InferGetServerSidePropsType<typeof getServerSide
                 </section>
 
                  <section id="reviews" className="">
-                    <div className=" bg-violet-500 max-w-7xl mx-auto flex flex-col py-4 px-4 sm:px-6 lg:px-8">
+                    <div className=" bg-violet-500 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
 
-                        <h2 className="text-center font-bold text-5xl tracking-wide md:py-10">Here are what others are saying</h2>
-                            
-                            {/* ! Remove following for production */}
-                            {/* @ts-ignore */}
-                            <ReviewGrid data={reviews} />
+                        {/* <h2 className="text-center font-bold text-5xl tracking-wide ">Here are what others are saying</h2> */}
+
+                        {/* @ts-ignore */}
+                        <ReviewStats data={reviews} />            
+
+                        <ReviewGrid data={reviews} />
 
                     </div>
                 </section>

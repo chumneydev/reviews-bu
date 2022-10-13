@@ -27,10 +27,12 @@ const ReviewGrid = ({ data }: ReviewGridTypes) => {
                     <li key={review.id}>
                         <ReviewCard
                             author={review.name}
-                            date={review.date}
+                            date={review.createdAt}
                             stars={review.rating}
                             review={review.review}
                         />
+
+
                     </li>
                 ))}
             </ul>
